@@ -1,0 +1,88 @@
+<%
+  class String
+    def to_bool
+        return true  if self == true  || self =~ (/(true|t|yes|y|1)$/i)
+        return false if self == false || self.blank? || self =~ (/(false|f|no|n|0)$/i)
+        raise ArgumentError.new("invalid value for Boolean: \"#{self}\"")
+    end
+  end
+-%>
+# File managed by Puppet
+# Do not edit manualy as your changes will be overwritten
+# and might cause this jail to restart!
+
+# jail definition for <%= @name %>
+<%= @name %> {
+<% {
+    'jid'                   => 'string',
+    'path'                  => 'string',
+    'ip4'                   => 'string',
+    'ip4.addr'              => 'string',
+    'ip4.saddrsel'          => 'boolean',
+    'ip6'                   => 'string',
+    'ip6.addr'              => 'string',
+    'ip6.saddrsel'          => 'boolean',
+    'interface'             => 'string',
+    'vnet'                  => 'string',
+    'vnet.interface'        => 'string',
+    'host.hostname'         => 'string',
+    'host.domainname'       => 'string',
+    'host.hostuuid'         => 'string',
+    'host.hostid'           => 'string',
+    'ip.hostname'           => 'string',
+    'host'                  => 'string',
+    'securelevel'           => 'string',
+    'devfs_ruleset'         => 'string',
+    'children.max'          => 'string',
+    'children.cur'          => 'string',
+    'enforce_statfs'        => 'string',
+    'persist'               => 'boolean',
+    'allow.set_hostname'    => 'boolean',
+    'allow.sysvipc'         => 'boolean',
+    'allow.raw_sockets'     => 'boolean',
+    'allow.chflags'         => 'boolean',
+    'allow.mount'           => 'boolean',
+    'allow.mount.devfs'     => 'boolean',
+    'allow.mount.nullfs'    => 'boolean',
+    'allow.mount.procfs'    => 'boolean',
+    'allow.mount.tmpfs'     => 'boolean',
+    'allow.mount.zfs'       => 'boolean',
+    'allow.quotas'          => 'boolean',
+    'allow.socket_af'       => 'boolean',
+    'allow.dying'           => 'boolean',
+    'exec.prestart'         => 'string',
+    'exec.start'            => 'string',
+    'exec.poststart'        => 'string',
+    'exec.prestop'          => 'string',
+    'exec.stop'             => 'string',
+    'exec.poststop'         => 'string',
+    'exec.clean'            => 'boolean',
+    'exec.jail_user'        => 'string',
+    'exec.system_jail_user' => 'boolean',
+    'exec.system_user'      => 'string',
+    'exec.timeout'          => 'string',
+    'exec.consolelog'       => 'string',
+    'exec.fib'              => 'string',
+    'stop.timeout'          => 'string',
+    'mount'                 => 'string',
+    'mount.fstab'           => 'boolean',
+    'mount.devfs'           => 'boolean',
+    'mount.fdescfs'         => 'boolean',
+    'depend'                => 'string',
+   }.each {|var, type|
+      cleanVar = var.gsub(/\./, '_' )
+      value = scope.lookupvar("#{cleanVar}")
+      if value != ''
+        case type
+          when 'string' -%>
+    <%= var %> = '<%= scope.lookupvar("#{cleanVar}") %>';
+<%-       when 'boolean'
+            if !!value != value
+              value = value.to_bool
+            end -%>
+    <%= var %> = <%= value %>;
+<%-       end
+      end
+    } -%>
+}
+
