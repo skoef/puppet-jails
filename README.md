@@ -26,7 +26,7 @@ jails::jail { 'webserver0':
 }
 ```
 
-Jails can be easily managed from Hiera well:
+Jails can be easily managed from Hiera as well:
 ```YAML
 jails::jails:
   webserver0:
