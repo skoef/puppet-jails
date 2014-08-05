@@ -1,3 +1,28 @@
+# = Define: jails::jail
+#
+# Defines a FreeBSD Jail
+#
+# == Parameters
+#
+# [*disable*]
+#   By default, the jail will be ensured running.
+#   This behaviour can be disabled by setting this parameter.
+#
+# [*service_autorestart*]
+#   Jails will be restarted on config changes, but this behaviour
+#   can be disabled by setting this parameter.
+#
+# [*template*]
+#   Override the default template from jails::params use to define
+#   jail config.
+#
+# == FreeBSD jail parameters
+#
+# The parameters below are taken from jail(8). Refer to
+# http://www.freebsd.org/cgi/man.cgi?query=jail for details
+#
+# == Author
+#   Reinier Schoof <reinier@skoef.nl>
 #
 define jails::jail (
   $disable               = false,
