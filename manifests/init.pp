@@ -28,9 +28,9 @@
 #   Reinier Schoof <reinier@skoef.nl>
 #
 class jails (
-  $my_class   = '',
+  $my_class   = $jails::params::my_class,
   $config_dir = $jails::params::config_dir,
-  $jails      = {},
+  $jails      = $jails::params::jails,
   $defaults   = $jails::params::defaults,
 ) inherits jails::params {
 

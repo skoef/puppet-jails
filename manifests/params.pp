@@ -5,7 +5,6 @@ class jails::params {
   $config_file_group = 'wheel'
   $config_file_mode  = '0444'
 
-  $template          = 'jails/jail.conf.erb'
   $defaults          = {
     'exec_start'        => '/bin/sh /etc/rc',
     'exec_stop'         => '/bin/sh /etc/rc.shutdown',
@@ -14,4 +13,8 @@ class jails::params {
     'allow_mount'       => 1,
     'allow_mount_devfs' => 1,
   }
+
+  # general
+  $jails    = {}
+  $my_class = ''
 }
