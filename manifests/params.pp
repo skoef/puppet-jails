@@ -17,4 +17,5 @@ class jails::params {
   # general
   $jails    = {}
   $my_class = ''
+  $template = 'jails/jail.conf.erb'
 }
