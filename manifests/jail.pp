@@ -69,10 +69,10 @@ define jails::jail (
   $allow_dying           = '',
 
   $exec_prestart         = '',
-  $exec_start            = '',
+  $exec_start            = '/bin/sh /etc/rc',
   $exec_poststart        = '',
   $exec_prestop          = '',
-  $exec_stop             = '',
+  $exec_stop             = '/bin/sh /etc/rc.shutdown',
   $exec_poststop         = '',
   $exec_clean            = '',
   $exec_jail_user        = '',
@@ -94,6 +94,9 @@ define jails::jail (
 
   $bool_disable=any2bool($disable)
   $bool_service_autorestart=any2bool($service_autorestart)
+
+  ### integrity check
+  $valid_params = jails_integrity_check()
 
   $manage_service_ensure = $bool_disable ? {
     true    => 'stopped',
@@ -128,12 +131,11 @@ define jails::jail (
   }
 
   service { "jail-${name}":
-    ensure    => $manage_service_ensure,
-    hasstatus => false,
-    start     => "/usr/sbin/jail -f ${manage_file_path} -c ${name}",
-    restart   => "/usr/sbin/jail -f ${manage_file_path} -rc ${name}",
-    stop      => "/usr/sbin/jail -f ${manage_file_path} -r ${name}",
-    status    => "/usr/sbin/jls -j ${name}",
-    require   => File["jail.conf-${name}"],
+    ensure     => $manage_service_ensure,
+    hasrestart => false,
+    start      => "/usr/sbin/jail -f ${manage_file_path} -c ${name}",
+    stop       => "/usr/sbin/jail -f ${manage_file_path} -r ${name}",
+    status     => "/usr/sbin/jls -j ${name}",
+    require    => File["jail.conf-${name}"],
   }
 }

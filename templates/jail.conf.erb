@@ -14,7 +14,7 @@
 # jail definition for <%= @name %>
 <%= @name %> {
 <% {
-    'jid'                   => 'string',
+    'jid'                   => 'integer',
     'path'                  => 'string',
     'ip4'                   => 'string',
     'ip4.addr'              => 'string',
@@ -31,11 +31,11 @@
     'host.hostid'           => 'string',
     'ip.hostname'           => 'string',
     'host'                  => 'string',
-    'securelevel'           => 'string',
-    'devfs_ruleset'         => 'string',
-    'children.max'          => 'string',
-    'children.cur'          => 'string',
-    'enforce_statfs'        => 'string',
+    'securelevel'           => 'integer',
+    'devfs_ruleset'         => 'integer',
+    'children.max'          => 'integer',
+    'children.cur'          => 'integer',
+    'enforce_statfs'        => 'integer',
     'persist'               => 'boolean',
     'allow.set_hostname'    => 'boolean',
     'allow.sysvipc'         => 'boolean',
@@ -63,7 +63,7 @@
     'exec.timeout'          => 'string',
     'exec.consolelog'       => 'string',
     'exec.fib'              => 'string',
-    'stop.timeout'          => 'string',
+    'stop.timeout'          => 'integer',
     'mount'                 => 'string',
     'mount.fstab'           => 'boolean',
     'mount.devfs'           => 'boolean',
@@ -75,13 +75,17 @@
       if value != ''
         case type
           when 'string' -%>
-    <%= var %> = '<%= scope.lookupvar("#{cleanVar}") %>';
+    <%= var %> = "<%= value.to_s %>";
 <%-       when 'boolean'
             if !!value != value
               value = value.to_bool
             end -%>
     <%= var %> = <%= value %>;
-<%-       end
+<%-
+          when 'integer' -%>
+    <%= var %> = <%= value.to_i %>;
+<%-
+          end
       end
     } -%>
 }
