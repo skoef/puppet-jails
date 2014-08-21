@@ -135,6 +135,7 @@ define jails::jail (
     hasrestart => false,
     start      => "/usr/sbin/jail -f ${manage_file_path} -c ${name}",
     stop       => "/usr/sbin/jail -f ${manage_file_path} -r ${name}",
+    restart    => "/usr/sbin/jail -f ${manage_file_path} -mr ${name}",
     status     => "/usr/sbin/jls -j ${name}",
     require    => File["jail.conf-${name}"],
   }
