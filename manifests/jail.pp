@@ -92,8 +92,8 @@ define jails::jail (
 ) {
   include ::jails
 
-  $bool_disable=any2bool($disable)
-  $bool_service_autorestart=any2bool($service_autorestart)
+  $bool_disable=str2bool($disable)
+  $bool_service_autorestart=str2bool($service_autorestart)
 
   ### integrity check
   $valid_params = jails_integrity_check()
