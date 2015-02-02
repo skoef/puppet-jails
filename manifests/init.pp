@@ -32,6 +32,7 @@ class jails (
   $config_dir = $jails::params::config_dir,
   $jails      = $jails::params::jails,
   $defaults   = $jails::params::defaults,
+  $template   = $jails::params::template,
 ) inherits jails::params {
 
   if $my_class != '' {
